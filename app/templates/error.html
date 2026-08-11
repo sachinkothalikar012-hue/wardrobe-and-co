@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ status_code }} — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="empty-state">
+    <h2>{{ status_code }}</h2>
+    <p>{{ detail }}</p>
+    <a class="btn btn-accent" href="/" style="margin-top:12px;">Back to the showroom</a>
+  </div>
+</div>
+{% endblock %}

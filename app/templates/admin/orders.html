@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Orders — Admin{% endblock %}
+{% block content %}
+<div class="wrap admin-shell">
+  {% include "admin/_sidebar.html" %}
+  <div>
+    <h1>Orders</h1>
+    <table class="data">
+      <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Update</th></tr></thead>
+      <tbody>
+        {% for o in orders %}
+        <tr>
+          <td>#{{ o.id }}</td>
+          <td>{{ o.user.full_name }}<br><span class="meta">{{ o.user.email }}</span></td>
+          <td>{{ o.created_at.strftime("%b %d, %Y") }}</td>
+          <td>${{ "%.2f"|format(o.total_amount) }}</td>
+          <td><span class="status-badge status-{{ o.status }}">{{ o.status }}</span></td>
+          <td>
+            <form action="/admin/orders/{{ o.id }}/status" method="post" style="display:flex; gap:8px;">
+              <select name="status">
+                {% for s in ["pending","confirmed","shipped","delivered","cancelled"] %}
+                <option value="{{ s }}" {% if o.status == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn-outline btn-sm" type="submit">Update</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

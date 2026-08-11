@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My orders — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap section">
+  <h1>My orders</h1>
+  {% if orders %}
+  <table class="data">
+    <thead><tr><th>Order</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for o in orders %}
+      <tr>
+        <td>#{{ o.id }}</td>
+        <td>{{ o.created_at.strftime("%b %d, %Y") }}</td>
+        <td>${{ "%.2f"|format(o.total_amount) }}</td>
+        <td><span class="status-badge status-{{ o.status }}">{{ o.status }}</span></td>
+        <td><a class="btn btn-outline btn-sm" href="/orders/{{ o.id }}">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <h2>No orders yet</h2>
+    <p>Once you place an order, it'll show up here.</p>
+    <a class="btn btn-accent" href="/" style="margin-top:12px;">Browse the showroom</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="product-detail">
+    <img src="{{ product.image_url or 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800' }}" alt="{{ product.name }}">
+    <div>
+      <p class="hero-eyebrow">{{ product.category.name if product.category else "Uncategorized" }}</p>
+      <h1>{{ product.name }}</h1>
+      <div class="price-display">${{ "%.2f"|format(product.price) }}</div>
+      <p>{{ product.description }}</p>
+
+      <div class="spec-row"><span>Material</span><span>{{ product.material or "—" }}</span></div>
+      <div class="spec-row"><span>Dimensions</span><span>{{ product.dimensions or "—" }}</span></div>
+      <div class="spec-row"><span>Availability</span>
+        <span>{% if product.stock_quantity > 0 %}{{ product.stock_quantity }} in stock{% else %}Sold out{% endif %}</span>
+      </div>
+
+      {% if product.stock_quantity > 0 %}
+      <form action="/cart/add/{{ product.id }}" method="post" style="margin-top:24px; display:flex; gap:10px; align-items:center;">
+        <div class="field" style="margin:0; width:90px;">
+          <input type="number" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}">
+        </div>
+        <button class="btn btn-accent" type="submit">Add to cart</button>
+      </form>
+      {% else %}
+      <button class="btn btn-outline" disabled style="margin-top:24px;">Sold out</button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

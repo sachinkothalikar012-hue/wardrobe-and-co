@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Wardrobe & Co. — Furniture Showroom{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="wrap">
+    <p class="hero-eyebrow">The showroom floor</p>
+    <h1>Furniture that earns its place in the room.</h1>
+    <p>Browse the full floor by category, material, or mood — everything shown here is in stock and ready to order.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="filter-row">
+      <a class="chip {% if not selected_category %}active{% endif %}" href="/?q={{ q }}">All rooms</a>
+      {% for c in categories %}
+        <a class="chip {% if selected_category == c.id %}active{% endif %}" href="/?category={{ c.id }}&q={{ q }}">{{ c.name }}</a>
+      {% endfor %}
+    </div>
+
+    {% if products %}
+    <div class="product-grid">
+      {% for p in products %}
+      <a class="product-card" href="/product/{{ p.id }}">
+        {% if p.stock_quantity > 0 %}
+          <span class="tag">${{ "%.2f"|format(p.price) }}</span>
+        {% else %}
+          <span class="tag out">Sold out</span>
+        {% endif %}
+        <img src="{{ p.image_url or 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600' }}" alt="{{ p.name }}">
+        <div class="body">
+          <h3>{{ p.name }}</h3>
+          <p class="meta">{{ p.category.name if p.category else "Uncategorized" }} · {{ p.material or "—" }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h2>Nothing on the floor yet</h2>
+      <p>Try a different search, or check back once new pieces are added.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

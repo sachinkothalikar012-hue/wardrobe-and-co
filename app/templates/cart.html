@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Your cart — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap section">
+  <h1>Your cart</h1>
+  {% if items %}
+  <table class="data">
+    <thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr></thead>
+    <tbody>
+      {% for i in items %}
+      <tr>
+        <td><a href="/product/{{ i.product.id }}">{{ i.product.name }}</a></td>
+        <td>${{ "%.2f"|format(i.product.price) }}</td>
+        <td>
+          <form action="/cart/update/{{ i.id }}" method="post" style="display:flex; gap:8px;">
+            <input type="number" name="quantity" value="{{ i.quantity }}" min="0" max="{{ i.product.stock_quantity }}">
+            <button class="btn btn-outline btn-sm" type="submit">Update</button>
+          </form>
+        </td>
+        <td>${{ "%.2f"|format(i.product.price * i.quantity) }}</td>
+        <td>
+          <form action="/cart/remove/{{ i.id }}" method="post">
+            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div style="display:flex; justify-content:flex-end; align-items:center; gap:20px; margin-top:24px;">
+    <div class="price-display">Total: ${{ "%.2f"|format(total) }}</div>
+    <a class="btn btn-primary" href="/checkout">Proceed to checkout</a>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h2>Your cart is empty</h2>
+    <p>Nothing here yet — browse the floor to find your next piece.</p>
+    <a class="btn btn-accent" href="/" style="margin-top:12px;">Back to the showroom</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

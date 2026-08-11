@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Categories — Admin{% endblock %}
+{% block content %}
+<div class="wrap admin-shell">
+  {% include "admin/_sidebar.html" %}
+  <div>
+    <h1>Categories</h1>
+    <table class="data" style="margin-bottom:28px;">
+      <thead><tr><th>Name</th><th>Description</th><th></th></tr></thead>
+      <tbody>
+        {% for c in categories %}
+        <tr>
+          <td>{{ c.name }}</td>
+          <td>{{ c.description or "—" }}</td>
+          <td>
+            <form action="/admin/categories/{{ c.id }}/delete" method="post" onsubmit="return confirm('Delete this category? Products keep their data but lose this category.');">
+              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 style="font-size:1.05rem;">Add category</h2>
+    <form class="form-card" style="margin:16px 0 0; max-width:420px;" method="post" action="/admin/categories/new">
+      <div class="field"><label>Name</label><input type="text" name="name" required></div>
+      <div class="field"><label>Description</label><input type="text" name="description"></div>
+      <button class="btn btn-primary btn-block" type="submit">Add category</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

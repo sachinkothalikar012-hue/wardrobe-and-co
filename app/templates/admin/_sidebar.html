@@ -1,0 +1,7 @@
+<div class="admin-side">
+  <a href="/admin" {% if active=='dashboard' %}class="active"{% endif %}>Dashboard</a>
+  <a href="/admin/products" {% if active=='products' %}class="active"{% endif %}>Products</a>
+  <a href="/admin/categories" {% if active=='categories' %}class="active"{% endif %}>Categories</a>
+  <a href="/admin/orders" {% if active=='orders' %}class="active"{% endif %}>Orders</a>
+  <a href="/">View showroom ↗</a>
+</div>

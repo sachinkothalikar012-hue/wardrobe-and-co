@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Products — Admin{% endblock %}
+{% block content %}
+<div class="wrap admin-shell">
+  {% include "admin/_sidebar.html" %}
+  <div>
+    <div class="toolbar">
+      <h1>Products</h1>
+      <a class="btn btn-primary" href="/admin/products/new">+ New product</a>
+    </div>
+    <table class="data">
+      <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr></thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.category.name if p.category else "—" }}</td>
+          <td>${{ "%.2f"|format(p.price) }}</td>
+          <td>{{ p.stock_quantity }}</td>
+          <td>{{ "Yes" if p.is_active else "No" }}</td>
+          <td class="row-actions">
+            <a class="btn btn-outline btn-sm" href="/admin/products/{{ p.id }}/edit">Edit</a>
+            <form action="/admin/products/{{ p.id }}/delete" method="post" onsubmit="return confirm('Delete this product?');">
+              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

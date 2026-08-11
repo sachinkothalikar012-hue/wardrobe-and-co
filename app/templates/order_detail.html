@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap section">
+  <h1>Order #{{ order.id }}</h1>
+  <p class="meta" style="margin-bottom:20px;">
+    Placed {{ order.created_at.strftime("%b %d, %Y") }} ·
+    <span class="status-badge status-{{ order.status }}">{{ order.status }}</span>
+  </p>
+  <table class="data">
+    <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+    <tbody>
+      {% for i in order.items %}
+      <tr>
+        <td>{{ i.product.name }}</td>
+        <td>{{ i.quantity }}</td>
+        <td>${{ "%.2f"|format(i.price_at_purchase) }}</td>
+        <td>${{ "%.2f"|format(i.price_at_purchase * i.quantity) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="price-display" style="margin-top:16px;">Total: ${{ "%.2f"|format(order.total_amount) }}</div>
+  <p style="margin-top:20px; color:var(--walnut-soft);">Shipping to: {{ order.shipping_address }}</p>
+</div>
+{% endblock %}

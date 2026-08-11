@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h2>Welcome back</h2>
+  {% if error %}<div class="form-error">{{ error }}</div>{% endif %}
+  <form method="post" action="/login">
+    <div class="field"><label>Email</label><input type="email" name="email" required></div>
+    <div class="field"><label>Password</label><input type="password" name="password" required></div>
+    <button class="btn btn-primary btn-block" type="submit">Log in</button>
+  </form>
+  <p class="form-note">New here? <a href="/register" style="text-decoration:underline;">Create an account</a></p>
+  <p class="form-note">Staff? <a href="/admin/login" style="text-decoration:underline;">Admin login</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Wardrobe & Co.{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="/">Wardrobe <span>&</span> Co.</a>
+    <form class="search-form" action="/" method="get">
+      <input type="text" name="q" placeholder="Search the floor…" value="{{ q|default('') }}">
+      <button type="submit" aria-label="Search">→</button>
+    </form>
+    <nav class="main-nav">
+      {% if user %}
+        {% if user.role == 'admin' %}
+          <a href="/admin">Admin floor</a>
+        {% else %}
+          <a href="/orders">My orders</a>
+          <a href="/cart">Cart</a>
+        {% endif %}
+        <a href="/logout">Log out</a>
+      {% else %}
+        <a href="/login">Log in</a>
+        <a href="/register" class="nav-cta">Create account</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Wardrobe &amp; Co. — a showroom floor for furniture, built room by room.</p>
+  </div>
+</footer>
+</body>
+</html>

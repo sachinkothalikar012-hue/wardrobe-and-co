@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Admin dashboard — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap admin-shell">
+  {% include "admin/_sidebar.html" %}
+  <div>
+    <h1>Dashboard</h1>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="num">{{ product_count }}</div><div class="label">Products</div></div>
+      <div class="stat-card"><div class="num">{{ order_count }}</div><div class="label">Orders</div></div>
+      <div class="stat-card"><div class="num">${{ "%.2f"|format(revenue) }}</div><div class="label">Revenue</div></div>
+    </div>
+
+    <h2 style="font-size:1.1rem;">Low stock</h2>
+    {% if low_stock %}
+    <table class="data" style="margin-bottom:32px;">
+      <thead><tr><th>Product</th><th>Stock</th></tr></thead>
+      <tbody>
+        {% for p in low_stock %}
+        <tr><td><a href="/admin/products/{{ p.id }}/edit">{{ p.name }}</a></td><td>{{ p.stock_quantity }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="meta" style="margin-bottom:32px;">All products are well stocked.</p>
+    {% endif %}
+
+    <h2 style="font-size:1.1rem;">Recent orders</h2>
+    {% if recent_orders %}
+    <table class="data">
+      <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for o in recent_orders %}
+        <tr>
+          <td>#{{ o.id }}</td>
+          <td>{{ o.user.full_name }}</td>
+          <td>${{ "%.2f"|format(o.total_amount) }}</td>
+          <td><span class="status-badge status-{{ o.status }}">{{ o.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="meta">No orders yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

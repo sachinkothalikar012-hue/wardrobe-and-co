@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Wardrobe & Co.{% endblock %}
+{% block content %}
+<div class="wrap section">
+  <h1>Checkout</h1>
+  <table class="data" style="margin-bottom:24px;">
+    <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th></tr></thead>
+    <tbody>
+      {% for i in items %}
+      <tr><td>{{ i.product.name }}</td><td>{{ i.quantity }}</td><td>${{ "%.2f"|format(i.product.price * i.quantity) }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="price-display" style="margin-bottom:24px;">Total: ${{ "%.2f"|format(total) }}</div>
+
+  <form method="post" action="/checkout" class="form-card" style="margin:0;">
+    <h2 style="font-size:1.1rem;">Delivery address</h2>
+    <div class="field">
+      <label>Shipping address</label>
+      <textarea name="shipping_address" required placeholder="Street, city, postcode"></textarea>
+    </div>
+    <button class="btn btn-primary btn-block" type="submit">Place order</button>
+  </form>
+</div>
+{% endblock %}
